@@ -1,5 +1,13 @@
+
 <?php
     error_reporting(0);
+    session_start();
+	include 'db.php';
+	if($_SESSION['status_login'] != true){
+		echo 'belum login';
+    }else{
+        echo 'Berhasil login';
+    }
     include 'db.php';
 	$kontak = mysqli_query($conn, "SELECT admin_telp, admin_email, admin_address FROM tb_admin WHERE admin_id = 2");
 	$a = mysqli_fetch_object($kontak);
@@ -14,6 +22,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WEB Galeri Foto</title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 </head>
 
 <body>
@@ -24,7 +33,13 @@
         <ul>
             <li><a href="galeri.php">Galeri</a></li>
            <li><a href="registrasi.php">Registrasi</a></li>
-           <li><a href="login.php">Login</a></li>
+          <?php
+             if(isset($_SESSION['status_login']) && $_SESSION['status_login'] == true){
+                 echo '<li><a href="keluar.php">Keluar</a></li>';
+            } else {
+                echo '<li><a href="login.php">Login</a></li>';
+                }
+            ?>
         </ul>
         </div>
     </header>
@@ -57,6 +72,34 @@
                    </p>
                    
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- commets -->
+    <div class="section">
+        <div class="container">
+             <h3>Komentar </h3> 
+            
+            <?php
+             if(isset($_SESSION['status_login']) && $_SESSION['status_login'] == true){
+                 echo( '<br><a href="index.php" class="btn"><i class="fa-solid fa-plus">+ Tambah</i></a>');
+            } else {
+                echo '';
+                }
+            ?>
+             
+            <div class="box">
+                <div class="col-2">
+                  <img src="foto/<?php echo $p->image ?>" width="20%" /> 
+                   <h4><?php echo $p->admin_name ?></h4>
+                   <h5>
+                       <?php echo $p->image_description ?>
+                   </h5>
+                   <hr>
+                </div>
+                <!-- <div class="col-2">
+                   
+                </div> -->
             </div>
         </div>
     </div>
