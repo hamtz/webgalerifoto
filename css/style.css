@@ -53,7 +53,16 @@ a {
   border: none;
   cursor: pointer;
   display: inline-block;
-  padding: 15px 32px;
+  padding: 10px 15px;
+}
+.btn-dislike {
+  padding: 8px 15px;
+  background-color: #be8394;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  padding: 10px 15px;
 }
 header {
   background-color: #c70039;

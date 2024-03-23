@@ -3,12 +3,12 @@
     error_reporting(0);
     session_start();
 	include 'db.php';
-	if(isset($_SESSION['status_login']) && $_SESSION['status_login'] == true){
-        echo 'berhasil login';
-    } else {
-        // echo '<script>window.location="login.php"</script>';
-        echo 'belum login';
-    }
+	// if(isset($_SESSION['status_login']) && $_SESSION['status_login'] == true){
+    //     echo 'berhasil login';
+    // } else {
+    //     // echo '<script>window.location="login.php"</script>';
+    //     echo 'belum login';
+    // }
     include 'db.php';
     $userid = $_SESSION['id'];
 	$kontak = mysqli_query($conn, "SELECT admin_telp, admin_email, admin_address FROM tb_admin WHERE admin_id = $userid");
@@ -80,7 +80,8 @@
                         $liked = mysqli_query($conn, "SELECT * FROM tb_likes WHERE image_id = '".$_GET['id']."' AND user_id = '".$_SESSION['id']."' ");
                          if(mysqli_num_rows($liked) > 0) {
                         // Jika sudah memberi like
-                        echo '<button disabled>Like</button>'; // Anda bisa menampilkan tombol yang disabled jika sudah memberi like
+                        echo '<a href="dislike_process.php?id='.$_GET['id'].'" class="btn-dislike" >Dislike</a>'; // Anda bisa menampilkan tombol yang disabled jika sudah memberi like
+                        
                         echo '<div class="alert">disukai.</div>';
                         } else {
                             // Jika belum memberi like

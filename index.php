@@ -1,11 +1,11 @@
 <?php
     session_start();
     include 'db.php';
-   if(isset($_SESSION['status_login']) && $_SESSION['status_login'] == true){
-    echo 'berhasil login';
-    } else {
-        echo 'belum login';
-    }
+//    if(isset($_SESSION['status_login']) && $_SESSION['status_login'] == true){
+//     echo 'berhasil login';
+//     } else {
+//         echo 'belum login';
+//     }
 	$kontak = mysqli_query($conn, "SELECT admin_telp, admin_email, admin_address FROM tb_admin WHERE admin_id = 2");
 	$a = mysqli_fetch_object($kontak);
 ?>
@@ -24,6 +24,13 @@
         <div class="container">
         <h1><a href="index.php">WEB GALERI FOTO</a></h1>
         <ul>
+             <?php
+             if(isset($_SESSION['status_login']) && $_SESSION['status_login'] == true){
+                 echo '<li><a href="dashboard.php">Dashboard</a></li>';
+            } else {
+                echo '';
+                }
+            ?>
             <li><a href="galeri.php">Galeri</a></li>
            <li><a href="registrasi.php">Registrasi</a></li>
              <?php

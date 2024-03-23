@@ -2,7 +2,7 @@
     session_start();
 	include 'db.php';
     if(isset($_SESSION['status_login']) && $_SESSION['status_login'] == true){
-        echo 'berhasil login';
+        // echo 'berhasil login';
     } else {
         echo '<script>window.location="login.php"</script>';
         echo 'belum login';
@@ -51,8 +51,8 @@
              
                <form action="" method="POST" enctype="multipart/form-data">
                    
-                   <input type="text" name="imageid" class="input-control" value="<?php echo $p->image_id?>" readonly="readonly">
-                   <input type="text" name="userid" class="input-control" value="<?php echo $_SESSION['a_global']->admin_id ?>" readonly="readonly">
+                   <input type="hidden" name="imageid" class="input-control" value="<?php echo $p->image_id?>" >
+                   <input type="hidden" name="userid" class="input-control" value="<?php echo $_SESSION['a_global']->admin_id ?>" >
                    <input type="text" name="namaadmin" class="input-control" value="<?php echo $_SESSION['a_global']->admin_name ?>" readonly="readonly">
                    <textarea class="input-control" name="deskripsi" placeholder="Tulis Komentar Ramah"></textarea><br />
                    <input type="submit" name="submit" value="Submit" class="btn">
