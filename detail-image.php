@@ -59,31 +59,43 @@
         </div>
     </div>
     
-    <!-- product detail -->
+   <!-- product detail -->
     <div class="section">
         <div class="container">
-             <h3>Detail Foto</h3>
+            <h3>Detail Foto</h3>
             <div class="box">
                 <div class="col-2">
-                   <img src="foto/<?php echo $p->image ?>" width="100%" /> 
+                <img src="foto/<?php echo $p->image ?>" width="100%" /> 
                 </div>
                 <div class="col-2">
-                   <h3><?php echo $p->image_name ?><br />Kategori : <?php echo $p->category_name  ?></h3>
-                   <h4>Nama User : <?php echo $p->admin_name ?><br />
-                   Upload Pada Tanggal : <?php echo $p->date_created  ?></h4>
-                   <p>Deskripsi :<br />
+                <h3><?php echo $p->image_name ?><br />Kategori : <?php echo $p->category_name  ?></h3>
+                <h4>Nama User : <?php echo $p->admin_name ?><br />
+                Upload Pada Tanggal : <?php echo $p->date_created  ?></h4>
+                <p>Deskripsi :<br />
                         <?php echo $p->image_description ?>
-                   </p>
-                   
+                </p>
+                <!-- Tombol Like -->
+                <?php
+                        // Proses pengecekan apakah user sudah memberi like pada foto ini
+                        $liked = mysqli_query($conn, "SELECT * FROM tb_likes WHERE image_id = '".$_GET['id']."' AND user_id = '".$_SESSION['id']."' ");
+                         if(mysqli_num_rows($liked) > 0) {
+                        // Jika sudah memberi like
+                        echo '<button disabled>Like</button>'; // Anda bisa menampilkan tombol yang disabled jika sudah memberi like
+                        echo '<div class="alert">disukai.</div>';
+                        } else {
+                            // Jika belum memberi like
+                            echo '<a href="like_process.php?id='.$_GET['id'].'" class="btn">Like</a>'; // Anda bisa membuat link atau tombol yang mengarah ke proses pemberian like
+                        }
+                ?>
                 </div>
             </div>
         </div>
     </div>
+
     <!-- commets -->
     <div class="section">
         <div class="container">
-             <h3>Komentar </h3> 
-            
+            <h3>Komentar </h3> 
             <?php
             $imageid = $_GET['id'];
 
