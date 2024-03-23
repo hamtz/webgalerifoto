@@ -1,4 +1,5 @@
 <?php
+    session_start();
     error_reporting(0);
     include 'db.php';
 	$kontak = mysqli_query($conn, "SELECT admin_telp, admin_email, admin_address FROM tb_admin WHERE admin_id = 2");
@@ -21,7 +22,13 @@
         <ul>
             <li><a href="galeri.php">Galeri</a></li>
            <li><a href="registrasi.php">Registrasi</a></li>
-           <li><a href="login.php">Login</a></li>
+            <?php
+             if(isset($_SESSION['status_login']) && $_SESSION['status_login'] == true){
+                 echo '<li><a href="keluar.php">Keluar</a></li>';
+            } else {
+                echo '<li><a href="login.php">Login</a></li>';
+                }
+            ?>
         </ul>
         </div>
     </header>

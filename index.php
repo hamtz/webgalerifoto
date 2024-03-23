@@ -1,5 +1,11 @@
 <?php
+    session_start();
     include 'db.php';
+//    if(isset($_SESSION['status_login']) && $_SESSION['status_login'] == true){
+//     echo 'berhasil login';
+//     } else {
+//         echo 'belum login';
+//     }
 	$kontak = mysqli_query($conn, "SELECT admin_telp, admin_email, admin_address FROM tb_admin WHERE admin_id = 2");
 	$a = mysqli_fetch_object($kontak);
 ?>
@@ -18,9 +24,22 @@
         <div class="container">
         <h1><a href="index.php">WEB GALERI FOTO</a></h1>
         <ul>
+             <?php
+             if(isset($_SESSION['status_login']) && $_SESSION['status_login'] == true){
+                 echo '<li><a href="dashboard.php">Dashboard</a></li>';
+            } else {
+                echo '';
+                }
+            ?>
             <li><a href="galeri.php">Galeri</a></li>
            <li><a href="registrasi.php">Registrasi</a></li>
-           <li><a href="login.php">Login</a></li>
+             <?php
+             if(isset($_SESSION['status_login']) && $_SESSION['status_login'] == true){
+                 echo '<li><a href="keluar.php">Keluar</a></li>';
+            } else {
+                echo '<li><a href="login.php">Login</a></li>';
+                }
+            ?>
         </ul>
         </div>
     </header>
@@ -58,28 +77,34 @@
         </div>
     </div>
     
-    <!-- new product -->
-    <div class="container">
-       <h3>Foto Terbaru</h3>
-       <div class="box">
-          <?php
-              $foto = mysqli_query($conn, "SELECT * FROM tb_image WHERE image_status = 1 ORDER BY image_id DESC LIMIT 8");
-			  if(mysqli_num_rows($foto) > 0){
-				  while($p = mysqli_fetch_array($foto)){
-		  ?>
-          <a href="detail-image.php?id=<?php echo $p['image_id'] ?>">
-          <div class="col-4">
-              <img src="foto/<?php echo $p['image'] ?>" height="150px" />
-              <p class="nama"><?php echo substr($p['image_name'], 0, 30)  ?></p>
-              <p class="admin">Nama User : <?php echo $p['admin_name'] ?></p>
-              <p class="nama"><?php echo $p['date_created']  ?></p>
-          </div>
-          </a>
-          <?php }}else{ ?>
-              <p>Foto tidak ada</p>
-          <?php } ?>
-       </div>
-    </div>
+   <!-- new product -->
+<div class="container">
+   <h3>Foto Terbaru</h3>
+   <div class="box">
+      <?php
+          $foto = mysqli_query($conn, "SELECT * FROM tb_image WHERE image_status = 1 ORDER BY image_id DESC LIMIT 8");
+          if(mysqli_num_rows($foto) > 0){
+              while($p = mysqli_fetch_array($foto)){
+                  // Menghitung jumlah "disukai" untuk setiap foto
+                  $likeCount = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_likes WHERE image_id = '{$p['image_id']}'");
+                  $likeData = mysqli_fetch_assoc($likeCount);
+      ?>
+      <a href="detail-image.php?id=<?php echo $p['image_id'] ?>">
+      <div class="col-4">
+          <img src="foto/<?php echo $p['image'] ?>" height="150px" />
+          <p class="nama"><?php echo substr($p['image_name'], 0, 30)  ?></p>
+          <p class="admin">Nama User : <?php echo $p['admin_name'] ?></p>
+          <p class="nama"><?php echo $p['date_created']  ?></p>
+          <p class="nama">Jumlah Disukai: <?php echo $likeData['total']; ?></p>
+          <br>
+      </div>
+      </a>
+      <?php }}else{ ?>
+          <p>Foto tidak ada</p>
+      <?php } ?>
+   </div>
+</div>
+
     
     <!-- footer -->
      <footer>
