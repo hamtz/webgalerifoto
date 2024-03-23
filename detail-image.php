@@ -3,17 +3,21 @@
     error_reporting(0);
     session_start();
 	include 'db.php';
-	if($_SESSION['status_login'] != true){
-		echo 'belum login';
-    }else{
-        echo 'Berhasil login';
+	if(isset($_SESSION['status_login']) && $_SESSION['status_login'] == true){
+        echo 'berhasil login';
+    } else {
+        // echo '<script>window.location="login.php"</script>';
+        echo 'belum login';
     }
     include 'db.php';
-	$kontak = mysqli_query($conn, "SELECT admin_telp, admin_email, admin_address FROM tb_admin WHERE admin_id = 2");
+    $userid = $_SESSION['id'];
+	$kontak = mysqli_query($conn, "SELECT admin_telp, admin_email, admin_address FROM tb_admin WHERE admin_id = $userid");
 	$a = mysqli_fetch_object($kontak);
 	
 	$produk = mysqli_query($conn, "SELECT * FROM tb_image WHERE image_id = '".$_GET['id']."' ");
 	$p = mysqli_fetch_object($produk);
+
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -81,25 +85,34 @@
              <h3>Komentar </h3> 
             
             <?php
+            $imageid = $_GET['id'];
+
              if(isset($_SESSION['status_login']) && $_SESSION['status_login'] == true){
-                 echo( '<br><a href="index.php" class="btn"><i class="fa-solid fa-plus">+ Tambah</i></a>');
+                 echo( '<br><a href="add-comment.php?id='.$imageid.'" class="btn"><i class="fa-solid fa-plus">+ Tambah</i></a>');
             } else {
                 echo '';
                 }
             ?>
-             
+                                
             <div class="box">
                 <div class="col-2">
-                  <img src="foto/<?php echo $p->image ?>" width="20%" /> 
-                   <h4><?php echo $p->admin_name ?></h4>
-                   <h5>
-                       <?php echo $p->image_description ?>
-                   </h5>
-                   <hr>
+            <?php
+                $comments = mysqli_query($conn, "SELECT * FROM tb_comments WHERE image_id = '".$_GET['id']."' LIMIT 5");
+
+                // Menggunakan while loop untuk menampilkan semua komentar
+                while($komen = mysqli_fetch_object($comments)) {
+                ?>
+                            <h4><?php echo $komen->nama ?></h4>
+                            
+                            <h5>
+                                <?php echo $komen->description ?>
+                            </h5>
+                            <hr>
+                            <br>
+                            <?php
+                }
+                ?>
                 </div>
-                <!-- <div class="col-2">
-                   
-                </div> -->
             </div>
         </div>
     </div>
