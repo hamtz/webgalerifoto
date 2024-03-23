@@ -98,19 +98,22 @@
                 <div class="col-2">
             <?php
                 $comments = mysqli_query($conn, "SELECT * FROM tb_comments WHERE image_id = '".$_GET['id']."' LIMIT 5");
-
+                $adaKomentar = false;
                 // Menggunakan while loop untuk menampilkan semua komentar
                 while($komen = mysqli_fetch_object($comments)) {
-                ?>
-                            <h4><?php echo $komen->nama ?></h4>
-                            
-                            <h5>
-                                <?php echo $komen->description ?>
-                            </h5>
-                            <hr>
-                            <br>
-                            <?php
+                    $adaKomentar = true;
+                    ?>
+                    <h4><?php echo $komen->nama ?></h4>
+                    <h5>
+                        <?php echo $komen->description ?>
+                    </h5>
+                    <hr>
+                    <br>
+                    <?php
                 }
+                    if (!$adaKomentar) {
+                        echo '<h4>Belum ada komentar</h4>';
+                    }
                 ?>
                 </div>
             </div>
